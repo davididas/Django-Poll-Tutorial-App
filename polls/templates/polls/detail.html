@@ -1,12 +1,25 @@
-<h1>{{ poll.question }}</h1>
+{% extends "polls/base.html" %}
 
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-<form action="{% url 'polls:vote' poll.id %}" method="post">
-{% csrf_token %}
-{% for choice in poll.choice_set.all %}
-    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
-    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br />
-{% endfor %}
-<input type="submit" value="Vote" />
+{% block title %}{{poll.question}}{% endblock %}
+
+{% block content %}
+{% if error_message %}<div class="alert alert-danger"><strong>Alert: </strong>{{ error_message }}</div>{% endif %}
+<h3>{{poll.question}}</h3>
+<form action="{% url 'polls:vote' poll.id %}" method="post" role="form">
+  {% csrf_token %}
+  <div class="radio">
+    {% for choice in poll.choice_set.all %}
+    <label for="choice{{ forloop.counter }}">
+      <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
+      {{ choice.choice_text }}
+    </label><br />
+    {% endfor %}
+  </div>
+  <button type="submit" class="btn btn-primary">
+    Submit Vote
+    <span class="glyphicon glyphicon-chevron-right"></span>
+  </button>
 </form>
+
+{% endblock %}

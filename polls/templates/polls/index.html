@@ -1,9 +1,16 @@
+{% extends "polls/base.html" %}
+
+
+{% block title %}Welcome{% endblock %}
+
+{% block content %}
 {% if latest_poll_list %}
-    <ul>
+    <ul class="list-group list-unstyled">
     {% for poll in latest_poll_list %}
-        <li><a href="{% url 'polls:detail' poll.id %}">{{ poll.question }}</a></li>
+        <a class="list-group-item" href="{% url 'polls:detail' poll.id %}"><li>{{ poll.question }}</li></a>
     {% endfor %}
     </ul>
 {% else %}
     <p>No polls are available.</p>
 {% endif %}
+{% endblock %}
